@@ -44,6 +44,35 @@
       color: #6a6a90;
     }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: #1a1a2e;
+      border-bottom: 1px solid #2a2a4a;
+    }
+
+    .tab-btn {
+      padding: 14px 28px;
+      font-size: 0.95rem;
+      color: #8a8ab0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover { color: #e0e0e0; }
+    .tab-btn.active {
+      color: #fc8d59;
+      border-bottom-color: #fc8d59;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
     .section {
       max-width: 1200px;
       margin: 0 auto;
@@ -106,6 +135,21 @@
       width: 100%;
       height: 100%;
       border: none;
+    }
+
+    /* Placeholder */
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      border-radius: 12px;
+      border: 2px dashed #3a3a5a;
+      background: #1a1a2e;
+      color: #5a5a7a;
+      font-size: 1.1rem;
+      text-align: center;
+      line-height: 1.6;
     }
 
     /* Static maps gallery */
@@ -180,56 +224,96 @@
 
   <header>
     <h1>Geospatial Determinants of Food Similarity</h1>
-    <p>Exploring how geography, climate, trade, and culture shape what countries eat — using bilateral food similarity indices and spatial analysis.</p>
-    <div class="authors">Ana Pichardo, Tina W., Megan Yeo, Lisbeth &mdash; BSE Geospatial Data Science, Spring 2026</div>
+    <p>Exploring how geography, climate, trade, and culture shape what countries eat, using bilateral food similarity indices and spatial analysis.</p>
+    <div class="authors">Ana Pichardo, Tina W., Megan Yeo, Lisbeth | BSE Geospatial Data Science, Spring 2026</div>
   </header>
 
-  <!-- Interactive Maps -->
-  <div class="section">
-    <h2>Interactive Climate Similarity Maps</h2>
-    <p class="subtitle">Select a country to see how climatically similar it is to every other country. Hover over countries for details, zoom to explore.</p>
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('climate')">Climate</button>
+    <button class="tab-btn" onclick="switchTab('food')">Food Similarity</button>
+    <button class="tab-btn" onclick="switchTab('elevation')">Elevation</button>
+    <button class="tab-btn" onclick="switchTab('geography')">Geography</button>
+  </div>
 
-    <div class="map-controls">
-      <label for="country-select">Perspective from:</label>
-      <select id="country-select" onchange="changeMap(this.value)">
-        <option value="maps/interactive_avg_climate_similarity.html">Global Average</option>
-        <option value="maps/interactive_esp_climate_similarity.html">Spain</option>
-        <option value="maps/interactive_usa_climate_similarity.html">United States</option>
-        <option value="maps/interactive_bra_climate_similarity.html">Brazil</option>
-        <option value="maps/interactive_jpn_climate_similarity.html">Japan</option>
-        <option value="maps/interactive_deu_climate_similarity.html">Germany</option>
-        <option value="maps/interactive_ind_climate_similarity.html">India</option>
-        <option value="maps/interactive_nga_climate_similarity.html">Nigeria</option>
-        <option value="maps/interactive_aus_climate_similarity.html">Australia</option>
-      </select>
+  <!-- CLIMATE TAB -->
+  <div id="tab-climate" class="tab-content active">
+    <div class="section">
+      <h2>Interactive Climate Similarity Maps</h2>
+      <p class="subtitle">Select a country to see how climatically similar it is to every other country. Hover over countries for details, zoom to explore.</p>
+
+      <div class="map-controls">
+        <label for="climate-select">Perspective from:</label>
+        <select id="climate-select" onchange="changeMap('climate-iframe', this.value)">
+          <option value="maps/interactive_avg_climate_similarity.html">Global Average</option>
+          <option value="maps/interactive_esp_climate_similarity.html">Spain</option>
+          <option value="maps/interactive_usa_climate_similarity.html">United States</option>
+          <option value="maps/interactive_bra_climate_similarity.html">Brazil</option>
+          <option value="maps/interactive_jpn_climate_similarity.html">Japan</option>
+          <option value="maps/interactive_deu_climate_similarity.html">Germany</option>
+          <option value="maps/interactive_ind_climate_similarity.html">India</option>
+          <option value="maps/interactive_nga_climate_similarity.html">Nigeria</option>
+          <option value="maps/interactive_aus_climate_similarity.html">Australia</option>
+        </select>
+      </div>
+
+      <div class="map-frame">
+        <iframe id="climate-iframe" src="maps/interactive_avg_climate_similarity.html"></iframe>
+      </div>
     </div>
 
-    <div class="map-frame">
-      <iframe id="map-iframe" src="maps/interactive_avg_climate_similarity.html"></iframe>
+    <div class="section">
+      <h2>Static Climate Maps</h2>
+      <div class="gallery">
+        <div>
+          <img src="static/map_avg_climate_similarity.png" alt="Average Climate Similarity">
+          <div class="caption">Average Climate Similarity by Country</div>
+        </div>
+        <div>
+          <img src="static/map_spain_climate_similarity.png" alt="Climate Similarity to Spain">
+          <div class="caption">Climate Similarity to Spain</div>
+        </div>
+        <div>
+          <img src="static/map_koppen_zones.png" alt="Koppen Climate Zones">
+          <div class="caption">Koppen-Geiger Climate Classification</div>
+        </div>
+        <div>
+          <img src="static/map_bilateral_comparison.png" alt="Three Perspectives">
+          <div class="caption">Climate Similarity from Three Perspectives</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Static Maps -->
-  <div class="section">
-    <h2>Static Visualizations</h2>
-    <p class="subtitle">Overview maps for the paper.</p>
+  <!-- FOOD SIMILARITY TAB -->
+  <div id="tab-food" class="tab-content">
+    <div class="section">
+      <h2>Food Similarity Maps</h2>
+      <p class="subtitle">Interactive maps of bilateral food similarity (Finger-Kreinin index) across countries.</p>
+      <div class="placeholder">
+        Coming soon<br>Interactive food similarity maps will be added here
+      </div>
+    </div>
+  </div>
 
-    <div class="gallery">
-      <div>
-        <img src="static/map_avg_climate_similarity.png" alt="Average Climate Similarity">
-        <div class="caption">Average Climate Similarity by Country</div>
+  <!-- ELEVATION TAB -->
+  <div id="tab-elevation" class="tab-content">
+    <div class="section">
+      <h2>Elevation Maps</h2>
+      <p class="subtitle">Elevation similarity between countries based on terrain data.</p>
+      <div class="placeholder">
+        Coming soon<br>Elevation similarity maps will be added here
       </div>
-      <div>
-        <img src="static/map_spain_climate_similarity.png" alt="Climate Similarity to Spain">
-        <div class="caption">Climate Similarity to Spain</div>
-      </div>
-      <div>
-        <img src="static/map_koppen_zones.png" alt="Koppen Climate Zones">
-        <div class="caption">Koppen-Geiger Climate Classification</div>
-      </div>
-      <div>
-        <img src="static/map_bilateral_comparison.png" alt="Three Perspectives">
-        <div class="caption">Climate Similarity from Three Perspectives</div>
+    </div>
+  </div>
+
+  <!-- GEOGRAPHY TAB -->
+  <div id="tab-geography" class="tab-content">
+    <div class="section">
+      <h2>Geographic Variables</h2>
+      <p class="subtitle">Distances, shared borders, coastline access, and other geographic measures.</p>
+      <div class="placeholder">
+        Coming soon<br>Geographic variable maps will be added here
       </div>
     </div>
   </div>
@@ -238,25 +322,35 @@
   <div class="section">
     <h2>Methodology</h2>
     <div class="method">
+      <h3>Food Similarity Index</h3>
+      <p>We measure bilateral food similarity using the Finger-Kreinin index (overlap in distribution method). Food items are grouped into meat (30%), starch (30%), and vegetables (40%). For each country pair, similarity is the weighted sum of minimum shares across all food items.</p>
+
       <h3>Climate Similarity Index</h3>
-      <p>We measure bilateral climate similarity using the same overlap method as the Finger-Kreinin food similarity index. For each country, we compute the share of land area in each of the 30 Koppen-Geiger climate zones. The similarity between two countries is then:</p>
+      <p>We apply the same overlap method to climate. For each country, we compute the share of land area in each of the 30 Koppen-Geiger climate zones. The similarity between two countries is:</p>
       <p style="text-align:center; font-size:1rem; color:#e0e0e0; margin: 15px 0;">
-        Climate Similarity<sub>ij</sub> = &Sigma; min(s<sub>iz</sub>, s<sub>jz</sub>) &times; 100
+        Similarity<sub>ij</sub> = &Sigma; min(s<sub>iz</sub>, s<sub>jz</sub>) x 100
       </p>
-      <p>where <code>s_iz</code> is country <em>i</em>'s share of land in climate zone <em>z</em>. Scores range from 0 (completely different) to 100 (identical climate distributions).</p>
+      <p>where <code>s_iz</code> is country <em>i</em>'s share of land in zone <em>z</em>. Scores range from 0 (completely different) to 100 (identical).</p>
 
       <h3>Data Sources</h3>
-      <p><strong>Climate:</strong> Koppen-Geiger classification at 0.1&deg; resolution (1991&ndash;2020) from Beck et al. (2023). <strong>Food:</strong> FAO Food Balance Sheets (kcal/capita/day). <strong>Trade & gravity:</strong> CEPII Gravity, BACI HS22. <strong>GDP:</strong> World Bank. <strong>Country polygons:</strong> Natural Earth (<code>ne_countries</code>).</p>
+      <p><strong>Climate:</strong> Koppen-Geiger classification at 0.1 degree resolution (1991-2020) from Beck et al. (2023). <strong>Food:</strong> FAO Food Balance Sheets (kcal/capita/day). <strong>Trade & gravity:</strong> CEPII Gravity, BACI HS22. <strong>GDP:</strong> World Bank. <strong>Country polygons:</strong> Natural Earth (<code>ne_countries</code>).</p>
     </div>
   </div>
 
   <footer>
-    BSE Geospatial Data Science &mdash; Spring 2026 &mdash; <a href="https://github.com/apichardo1997">GitHub</a>
+    BSE Geospatial Data Science | Spring 2026 | <a href="https://github.com/apichardo1997/geospatial-food-similarity">Source</a>
   </footer>
 
   <script>
-    function changeMap(url) {
-      document.getElementById('map-iframe').src = url;
+    function changeMap(iframeId, url) {
+      document.getElementById(iframeId).src = url;
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      event.target.classList.add('active');
     }
   </script>
 
