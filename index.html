@@ -184,12 +184,30 @@
 
   <!-- ELEVATION TAB -->
   <div id="tab-elevation" class="tab-content">
-    <div class="placeholder">Coming soon</div>
+    <div class="map-controls">
+      <label>View:</label>
+      <select onchange="changeMap('elevation-iframe', this.value)">
+        <option value="maps/interactive_elevation_map.html">Population-Weighted Elevation</option>
+        <option value="maps/interactive_elevation_similarity.html">Average Elevation Similarity</option>
+      </select>
+    </div>
+    <div class="map-frame">
+      <iframe id="elevation-iframe" src="maps/interactive_elevation_map.html"></iframe>
+    </div>
   </div>
 
   <!-- GEOGRAPHY TAB -->
   <div id="tab-geography" class="tab-content">
-    <div class="placeholder">Coming soon</div>
+    <div class="map-controls">
+      <label>View:</label>
+      <select onchange="changeMap('geography-iframe', this.value)">
+        <option value="maps/interactive_seafood_share.html">Seafood Share of Diet</option>
+        <option value="maps/interactive_coastal_access.html">Coastal vs Landlocked</option>
+      </select>
+    </div>
+    <div class="map-frame">
+      <iframe id="geography-iframe" src="maps/interactive_seafood_share.html"></iframe>
+    </div>
   </div>
 
   <footer>
